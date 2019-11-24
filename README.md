@@ -69,40 +69,24 @@ flutter:
  `graphics/my_icon.png`, `graphics/background.png` ,`graphics/dark/background.png`파일들이 모두 포함됨. 해상도에 적합한 이미지를 선택할 때 asset 변형을 사용함.
 
 
+Asset 로드
 
-Your app can access its assets through an
-[`AssetBundle`][] object.
 
-The two main methods on an asset bundle allow you to load a
-string/text asset (`loadString()`) or an image/binary asset (`load()`)
-out of the bundle, given a logical key. The logical key maps to the path
-to the asset specified in the `pubspec.yaml` file at build time.
 
-### Loading text assets
+[`AssetBundle`][] 객체를 통해 asset에 엑세스할 수 있음. text asset(`loadString()`) 과 이미지 asset (`load()`) 모두 로드 가능하고`pubspec.yaml` 파일에 경로가 지정되어야 함.
 
-Each Flutter app has a [`rootBundle`][]
-object for easy access to the main asset bundle. It is possible to
-load assets directly using the `rootBundle` global static from
-`package:flutter/services.dart`.
+text assets 
 
-However, it's recommended to obtain the AssetBundle for the current
-BuildContext using [`DefaultAssetBundle`][].
-Rather than the default asset bundle that was built with the app, this
-approach enables a parent widget to substitute a different AssetBundle
-at run time, which can be useful for localization or testing
-scenarios.
+`package:flutter/services.dart`로부터 `rootBundle` 객체를  사용하여 text assets를 로드할 수 있음.
 
-Typically, you'll use `DefaultAssetBundle.of()` to indirectly load an
-asset, for example a JSON file, from the app's runtime `rootBundle`.
 
-{% comment %}
-  Need example here to show obtaining the AssetBundle for the current
-  BuildContext using DefaultAssetBundle.of
-{% endcomment %}
+current BuildContext로부터는  `DefaultAssetBundle.of()`을 사용하는 게 권장되고 `DefaultAssetBundle.of()`은 예를 들어 JSON file과 같은 경우 우회적으로 로드할 때 사용가능함. 
 
-Outside of a Widget context, or when a handle to an AssetBundle is not
-available, you can use `rootBundle` to directly load such assets.
-For example:
+
+`rootBundle`을 사용하면 직접 assets를 로드할 수 있음.
+
+사례
+available, you can use `rootBundle`을 사용하면 직접 assets를 로드할 수 있음.
 
 ```dart
 import 'dart:async' show Future;
@@ -165,7 +149,7 @@ default asset 번들을 사용하는 모든 것은 이미지를 로드할 때 �
 하위 클래스인 `ImageStream`,`ImageCache`와 같은 클래스를 사용할 때도 상속함.
 
 
-### Asset images in package dependencies {#from-packages}
+packages에서 이미지 
 
 [package][] dependency에서 이미지를 로드하려면 `package`도 `AssetImage`에 같이 표시해주어야 함.
 
@@ -366,25 +350,29 @@ customization using the Interface Builder in
 
 
 네비게이터 클래스
-스택 규칙을 사용하여 하위 위젯 세트를 관리하는 위젯입니다.
 
-많은 앱은 가장 최근에 방문한 페이지와 함께 이전 페이지 위에 시각적으로 오버레이 를 사용하여 논리적 기록을 표시하기 위해 위젯 계층 구조 맨 위에 네비게이터가 있습니다 . 이 패턴을 사용하면 네비게이터가 오버레이에서 위젯을 움직여 한 페이지에서 다른 페이지로 시각적으로 전환 할 수 있습니다. 마찬가지로, 네비게이터를 사용하여 대화 상자 위젯을 현재 페이지 위에 배치하여 대화 상자를 표시 할 수 있습니다.
+최근에 방문한 페이지와 함께 이전 페이지 위에 시각적으로 오버레이를 사용하여 위젯 계층 구조 맨 위에 네비게이터가 있음. 이 패턴을 사용하면 네비게이터가 오버레이에서 위젯을 움직여 한 페이지에서 다른 페이지로 전환해서 표시할 수 있음.
 
 네비게이터 사용
-모바일 앱은 일반적으로 '화면'또는 '페이지'라는 전체 화면 요소를 통해 콘텐츠를 공개합니다. Flutter에서 이러한 요소를 경로라고하며 네비게이터 위젯으로 관리합니다 . 네비게이터는 Route 객체의 스택을 관리하고 Navigator.push 및 Navigator.pop 과 같은 스택 관리 방법을 제공합니다 .
+모바일 앱은 일반적으로 '화면'또는 '페이지'라는 전체 화면 요소를 통해 콘텐츠를 표시함. Flutter에서는 이러한 요소를 경로라고하며 네비게이터 위젯으로 관리합니다 . 네비게이터는 Route 객체의 스택을 관리하고 `Navigator.push` 및 `Navigator.pop` 과 같은 스택 관리 방법을 제공함.
 
-사용자 인터페이스가 스택의이 패러다임에 맞으면 사용자가 스택 의 이전 요소로 다시 탐색 할 수 있어야 하는 경우 경로와 탐색기를 사용하는 것이 적절합니다. Android와 같은 특정 플랫폼에서 시스템 UI는 사용자가 애플리케이션 스택에서 이전 경로로 다시 이동할 수있는 뒤로 버튼 (응용 프로그램 범위를 벗어난)을 제공합니다. 이 기본 제공 탐색 메커니즘이없는 플랫폼에서는 일반적으로 Scaffold.appBar 속성에 사용되는 AppBar를 사용하여 사용자 탐색을 위해 뒤로 버튼을 자동으로 추가 할 수 있습니다.
+Android와 같은 특정 플랫폼에서 시스템 UI는 사용자가 애플리케이션 스택에서 이전 경로로 다시 이동할 수있는 뒤로 버튼 제공함. 이러한 뒤로 버튼이 자동 생성되지 않는 경우에는 `Scaffold.appBar` 속성에 사용되는 `AppBar`를 사용하여 뒤로 버튼을 자동으로 추가할 수 있음.
 
 전체 화면 경로 표시
-네비게이터를 직접 만들 수 있지만 WidgetsApp 또는 MaterialApp 위젯으로 만든 네비게이터를 사용하는 것이 가장 일반적 입니다. Navigator.of 로 해당 네비게이터를 참조 할 수 있습니다 .
+네비게이터를 직접 만들 수 있지만 `WidgetsApp` 또는 `MaterialApp` 위젯으로 만든 네비게이터를 사용하는 것이 가장 일반적임. `Navigator.of` 로 해당 네비게이터를 참조가능함.
 
-MaterialApp는 세트 일까지 가장 간단한 방법입니다. MaterialApp 의 집은 하단의 경로가된다 네비게이터 의 스택 '. 앱이 시작될 때 표시됩니다.
+`MaterialApp`을 사용하는 것이 가장 간단함.  `home: `다음에는 하단의 경로를 표시함. 
 
+```
 void main() {
   runApp(MaterialApp(home: MyAppHome()));
 }
-스택에서 새 경로를 푸시하기 위해 화면에 표시 할 항목을 생성하는 빌더 기능을 사용하여 MaterialPageRoute 인스턴스를 만들 수 있습니다 . 예를 들면 다음과 같습니다.
+```
 
+스택에서 새 경로를 푸시하기 위해 화면에 표시할 항목을 생성하는 빌더 기능을 사용하여 `MaterialPageRoute` 인스턴스를 만들 수 있음.
+
+예시
+```
 Navigator.push(context, MaterialPageRoute<void>(
   builder: (BuildContext context) {
     return Scaffold(
@@ -400,18 +388,22 @@ Navigator.push(context, MaterialPageRoute<void>(
     );
   },
 ));
-라우트는 푸시 및 팝시기에 따라 다른 컨텍스트에서 빌드 및 재 빌드되므로 하위 위젯 대신 빌더 함수로 위젯을 정의합니다.
+```
 
-보시다시피, 네비게이터의 pop 메소드를 사용하여 앱의 홈 페이지를 표시하는 새로운 경로를 팝업 할 수 있습니다
+라우트는 하위 위젯 대신 빌더 함수로 위젯을 정의함. 네비게이터의 pop 메소드를 사용하여 앱의 홈 페이지를 표시하는 새로운 경로를 팝업 할 수 있음.
 
+```
 Navigator.pop(context);
-스캐 폴드는 자동으로 앱 바에 '뒤로'버튼을 추가하기 때문에 스캐 폴드 가있는 경로에서 네비게이터를 팝업시키는 위젯을 제공 할 필요는 없습니다 . 뒤로 버튼을 누르면 Navigator.pop 이 호출됩니다. Android에서는 시스템 뒤로 버튼을 눌러도 동일한 작업을 수행합니다.
+```
 
-명명 된 네비게이터 경로 사용
-모바일 앱은 종종 많은 수의 경로를 관리하며 이름으로 가장 쉽게 참조 할 수 있습니다. 일반적으로 경로 이름은 경로와 유사한 구조를 사용합니다 (예 : '/ a / b / c'). 앱의 홈페이지 경로 이름은 기본적으로 '/'입니다.
+스캐폴드는 자동으로 앱바에 '뒤로' 버튼을 추가하기 때문에 스캐 폴드가 있는 경로에서 네비게이터를 팝업시키는 위젯을 제공할 필요는 없음. 뒤로 버튼을 누르면 `Navigator.pop` 이 호출됨. Android에서는 시스템 뒤로 버튼을 눌러도 동일한 작업을 수행함.
 
-MaterialApp는 만들 수 있습니다 Map<String, WidgetBuilder>를 생성하는 빌더 기능 경로의 이름에서지도한다. MaterialApp는 그 네비게이터의 값 만들려면이 맵을 사용 onGenerateRoute 콜백을.
+네비게이터 경로 사용
+경로 이름은 경로와 유사한 구조를 사용함. (예 : '/ a / b / c'). 앱의 경로 이름은 기본적으로 '/'임.
 
+MaterialApp는 만들 수 있습니다 Map<String, WidgetBuilder>를 생성하는 빌더 기능 경로의 이름에서 지도한다. MaterialApp는 그 네비게이터의 값 만들려면이 맵을 사용 onGenerateRoute 콜백을.
+
+```
 void main() {
   runApp(MaterialApp(
     home: MyAppHome(), // becomes the route named '/'
@@ -422,6 +414,8 @@ void main() {
     },
   ));
 }
+```
+
 이름으로 경로를 표시하려면
 
 Navigator.pushNamed(context, '/b');
@@ -432,6 +426,7 @@ Navigator.pushNamed(context, '/b');
 
 예를 들어 사용자에게 '확인'을 눌러 작업을 확인하도록 요청하려면 Navigator.pushawait 의 결과를 얻을 수 있습니다 .
 
+```
 bool value = await Navigator.push(context, MaterialPageRoute<bool>(
   builder: (BuildContext context) {
     return Center(
@@ -442,12 +437,13 @@ bool value = await Navigator.push(context, MaterialPageRoute<bool>(
     );
   }
 ));
+```
 사용자가 'OK'를 누르면 값이 true가됩니다. 사용자가 비계의 뒤로 버튼을 눌러 경로를 벗어나면 값이 null이됩니다.
 
 경로를 사용하여 값을 반환하는 경우 경로의 유형 매개 변수는 pop 의 결과 유형과 일치해야합니다 . 그렇기 때문에 또는 MaterialPageRoute<bool>대신에 사용 했습니다 . (유형을 지정하지 않으려면 괜찮습니다.)MaterialPageRoute<void>MaterialPageRoute
 
 팝업 경로
-경로가 전체 화면을 가리지 않아도됩니다. PopupRoute 는 현재 화면 이 보이 도록 부분적으로 만 불투명 할 수 있는 ModalRoute.barrierColor로 화면을 덮습니다 . 팝업 경로는 아래 위젯에 대한 입력을 차단하기 때문에 "모달"입니다.
+경로가 전체 화면을 가리지 않아도됩니다. PopupRoute 는 현재 화면이 보이도록 부분적으로 만 불투명 할 수 있는 ModalRoute.barrierColor로 화면을 덮습니다 . 팝업 경로는 아래 위젯에 대한 입력을 차단하기 때문에 "모달"입니다.
 
 팝업 경로를 생성하고 표시하는 기능이 있습니다. 예를 들어 showDialog , showMenu 및 showModalBottomSheet 입니다. 이 함수는 위에서 설명한대로 푸시 된 경로의 미래를 반환합니다. 발신자는 경로가 튀어 나올 때 조치를 취하거나 경로 값을 발견하기 위해 리턴 된 값을 기다릴 수 있습니다.
 
@@ -458,6 +454,7 @@ PopupRoute , ModalRoute 또는 PageRoute 와 같은 위젯 라이브러리 라�
 
 PageRouteBuilder의 클래스는 가능한 콜백의 관점에서 사용자 지정 경로를 정의 할 수 있습니다. 다음은 경로가 나타나거나 사라질 때 자식을 회전하고 페이드하는 예제입니다. 이 경로는 opaque: false팝업 경로와 마찬가지로을 지정하기 때문에 전체 화면을 가리지 않습니다.
 
+```
 Navigator.push(context, PageRouteBuilder(
   opaque: false,
   pageBuilder: (BuildContext context, _, __) {
@@ -473,6 +470,8 @@ Navigator.push(context, PageRouteBuilder(
     );
   }
 ));
+```
+
 페이지 경로는 "페이지"와 "전환"의 두 부분으로 구성됩니다. 페이지는 transitionsBuilder함수에 전달 된 자식의 자손이 됩니다. 그것은 (과 생략의 애니메이션 매개 변수에 의존하지 않기 때문에 일반적으로 페이지는 한 번 구축 _ 및 __이 예에서). 전환은 지속 시간 동안 모든 프레임에 구축됩니다.
 
 중첩 네비게이터
@@ -494,6 +493,7 @@ iOS 앱은 각 탭이 자체 탐색 기록을 유지하는 탭 탐색을 사용�
 flutter run --route=/signup홈 페이지 대신 가입 절차로 시작하려면 이 예제를 실행 하십시오.
 
 할당
+```
 import 'package:flutter/material.dart';
 
 // ...
@@ -613,7 +613,10 @@ class SignUpPage extends StatelessWidget {
     );
   }
 }
-Navigator.of 는 지정된 BuildContext 에서 가장 가까운 상위 네비게이터 에서 작동합니다 . 중첩 된 네비게이터 가 생성 되는 대규모 메소드에서 특히 의도 된 네비게이터 아래 에 BuildContext 를 제공하십시오 . 작성기 액세스 (A)에 사용할 수있는 위젯 BuildContext 위젯 서브 트리의 원하는 위치.build
+
+```
+
+Navigator.of 는 지정된 BuildContext 에서 가장 가까운 상위 네비게이터 에서 작동합니다 . 중첩된 네비게이터 가 생성 되는 대규모 메소드에서 특히 의도 된 네비게이터 아래 에 BuildContext 를 제공하십시오 . 작성기 액세스 (A)에 사용할 수있는 위젯 BuildContext 위젯 서브 트리의 원하는 위치.build
 
 
 새로운 화면으로 이동하고, 되돌아오기
@@ -647,6 +650,8 @@ Navigator.pop()을 사용하여 첫 번째 route로 되돌아 옵니다.
 
 우선 시각적 구조를 세팅합니다.
 
+
+```
 content_copy
 class FirstRoute extends StatelessWidget {
   @override
@@ -685,6 +690,8 @@ class SecondRoute extends StatelessWidget {
     );
   }
 }
+```
+
 2. Navigator.push()를 사용하여 두 번째 route로 전환합니다.
 새로운 route로 전환하기 위해 Navigator.push() 메서드를 사용하세요. push() 메서드는 Route를 Navigator에 의해 관리되는 route 스택에 추가합니다. Route는 어디서 오는 걸까요? 직접 생성하거나, 새로운 route로 이동 시 플랫폼 특화된 애니메이션을 사용하기 좋은 MaterialPageRoute의 을 사용할 수 있습니다.
 
@@ -709,6 +716,8 @@ onPressed: () {
   Navigator.pop(context);
 }
 완성된 예제
+
+```
 content_copy
 import 'package:flutter/material.dart';
 
@@ -759,7 +768,7 @@ class SecondRoute extends StatelessWidget {
     );
   }
 }
-
+```
 
 
 Named route로의 화면 전환
@@ -780,6 +789,7 @@ Navigator.pop을 사용하여 첫 번째 화면으로 돌아가기.
 1. 두 개의 화면 만들기
 우선, 본 예제를 시작하기 위해 두 개의 화면이 필요합니다. 첫 번째 화면에는 두 번째 화면으로 이동하기 위한 버튼 하나가 있고, 두 번째 화면에는 다시 첫 번째 화면으로 돌아가기 위한 버튼이 있습니다.
 
+```
 content_copy
 class FirstScreen extends StatelessWidget {
   @override
@@ -818,11 +828,13 @@ class SecondScreen extends StatelessWidget {
     );
   }
 }
+```
 2. Route 정의하기
 다음으로, MaterialApp 생성자에 initialRoute와 routes 이름의 추가 프로퍼티를 제공하여 route를 정의하겠습니다.
 
 initialRoute 프로퍼티는 앱의 시작점을 나타내는 route를 정의하고, routes 프로퍼티는 이용가능한 named route와 해당 route로 이동했을 때 빌드될 위젯을 정의합니다.
 
+```
 content_copy
 MaterialApp(
   // "/"으로 named route와 함께 시작합니다. 본 예제에서는 FirstScreen 위젯에서 시작합니다.
@@ -834,6 +846,7 @@ MaterialApp(
     '/second': (context) => SecondScreen(),
   },
 );
+```
  경고: initialRoute를 사용한다면, home프로퍼티를 정의하지 마세요.
 
 3. 두 번째 화면으로 전환하기
@@ -857,8 +870,11 @@ onPressed: () {
   // 현재 route를 스택에서 제거함으로써 첫 번째 스크린으로 되돌아 갑니다.
   Navigator.pop(context);
 }
+
 완성된 예제
-content_copy
+
+```
+
 import 'package:flutter/material.dart';
 
 void main() {
@@ -916,7 +932,7 @@ class SecondScreen extends StatelessWidget {
     );
   }
 }
-
+```
 
 새로운 화면으로 데이터 보내기
 문서
@@ -934,18 +950,19 @@ Todo에 대한 상세 정보를 보여줄 수 있는 화면을 생성합니다.
 1. Todo 클래스를 정의합니다.
 우선 Todo를 표현하기 위한 간단한 정보가 필요합니다. 이 예제에서는 두 가지의 데이터를 갖고 있는 클래스를 정의할 것입니다: 제목과 상세 설명
 
-content_copy
+```
 class Todo {
   final String title;
   final String description;
 
   Todo(this.title, this.description);
 }
+```
 2. Todo 리스트를 보여줍니다.
 두 번째로, Todo 리스트를 보여줄 것입니다. 이 예제에서는 20개의 todo를 생성하고 ListView를 사용하여 보여줄 것입니다. List에 대한 더 자세한 정보는 Use lists에서 확인할 수 있습니다.
 
 Todo 리스트 생성하기
-content_copy
+```
 final todos = List<Todo>.generate(
   20,
   (i) => Todo(
@@ -963,13 +980,14 @@ ListView.builder(
     );
   },
 );
+```
 여기까지 그런대로 잘 되었습니다. 이제 20개의 Todo를 생성하여 ListView에 보여줄 것입니다!
 
 3. Todo에 대한 상세 정보를 보여줄 수 있는 화면을 생성합니다.
 이제 두 번째 화면을 만들겠습니다. 화면의 제목은 Todo의 제목을 포함하며 본문에는 상세 설명을 보여줄 것입니다.
 
 두 번째 화면은 일반적인 StatelssWidget이므로, 생성자 매개변수로 Todo를 받을 수 있게 간단한 방법으로 강제하겠습니다. 그러면 주어진 Todo를 활용하여 UI를 그릴 수 있습니다.
-
+```
 content_copy
 class DetailScreen extends StatelessWidget {
   // Todo를 들고 있을 필드를 선언합니다.
@@ -992,11 +1010,12 @@ class DetailScreen extends StatelessWidget {
     );
   }
 }
+```
 4. 상세 화면으로 이동하면서 데이터를 전달합니다.
 앞서 작성한 DetailsScreen으로 화면 전환할 준비가 되었습니다. 본 예제에서는 사용자가 Todo 리스트 중 하나를 선택했을 때, DetailsScreen으로 화면 전환하도록 할 것입니다. 그와 동시에 DetailsScreen에 Todo를 전달할 것입니다.
 
 사용자의 탭 동작을 감지하기 위해, ListTile 위젯에 onTap 콜백을 작성할 것입니다. onTap 콜백 내에서 다시 한 번 Navigator.push 메서드를 사용할 것입니다.
-
+```
 content_copy
 ListView.builder(
   itemCount: todos.length,
@@ -1099,7 +1118,7 @@ class DetailScreen extends StatelessWidget {
     );
   }
 }
-
+```
 
 
 이전 화면에 데이터 반환하기
@@ -1119,7 +1138,7 @@ Navigation
 1. 홈 화면을 정의합니다.
 홈 화면에서는 버튼 하나를 보여줄 것입니다. 버튼을 클릭하면 선택 창을 띄울 것입니다!
 
-content_copy
+```
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -1201,13 +1220,14 @@ class SelectionScreen extends StatelessWidget {
     );
   }
 }
+```
 4. 하나의 버튼을 클릭하면 선택 창을 닫습니다.
 이제 앞서 만든 두 개 버튼의 onPressed() 콜백을 수정할 차례입니다. 첫 번째 화면으로 데이터를 반환하기 위해, Navigator.pop() 메서드를 사용할 것입니다. 이 메서드 2번째 인자 result에 Future로 반환되는 SelectionButton의 결과를 추가합니다.
 
 Navigator.pop는 result라고 명시된 두 번째 인자를 선택적으로 받습니다. 만약 결과 값을 인자로 제공한다면, SelectionButton의 Future에 실려 반환될 것입니다.
 
 Yep 버튼
-content_copy
+```
 RaisedButton(
   onPressed: () {
     // Yep 버튼은 결과로 "Yep!"을 반환합니다.
@@ -1224,12 +1244,13 @@ RaisedButton(
   },
   child: Text('Nope!'),
 );
+```
 5. 선택된 정보를 홈 화면의 snackbar에 보여줍니다.
 선택 창을 띄우고 결과를 기다리고 있습니다. 이제 결과 값을 갖고 무언가 할 차례입니다.
 
 이 예제에서는 결과 값을 보여줄 수 있도록 Snackbar를 띄우겠습니다. 이 작업을 하기 위해 SelectionButton의 _navigateAndDisplaySelection 메서드를 수정할 것입니다.
 
-content_copy
+```
 _navigateAndDisplaySelection(BuildContext context) async {
   final result = await Navigator.push(
     context,
@@ -1242,8 +1263,9 @@ _navigateAndDisplaySelection(BuildContext context) async {
     ..removeCurrentSnackBar()
     ..showSnackBar(SnackBar(content: Text("$result")));
 }
+```
 완성된 예제
-content_copy
+```
 import 'package:flutter/material.dart';
 
 void main() {
@@ -1330,7 +1352,7 @@ class SelectionScreen extends StatelessWidget {
     );
   }
 }
-
+```
 
 
 화면을 넘나드는 위젯 애니메이션
@@ -1350,7 +1372,7 @@ Navigation
 
  참고: 이 예제는 새로운 화면으로 이동하고, 되돌아오기 와 탭 다루기 예제를 기반으로 합니다.
 
-content_copy
+```
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -1478,7 +1500,7 @@ class DetailScreen extends StatelessWidget {
   }
 }
 
-
+```
 
 슬라이 버는 스크롤 가능 영역의 일부입니다. 은색을 사용하여 사용자 정의 스크롤 효과를 얻을 수 있습니다.
 
