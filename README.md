@@ -1479,7 +1479,80 @@ https://medium.com/flutter/slivers-demystified-6ff68ab0296f
 
 <img src = 'https://miro.medium.com/max/488/1*D0lutEyy9ouTE7TVgG4IXw.gif'>
 
+SiverList 예제 코드
+```
+// Explicit list of children. No efficiency savings here since the
+// children are already constructed.
+SliverList(
+    delegate: SliverChildListDelegate(
+      [
+        Container(color: Colors.red, height: 150.0),
+        Container(color: Colors.purple, height: 150.0),
+        Container(color: Colors.green, height: 150.0),
+      ],
+    ),
+);
+// This builds an infinite scrollable list of differently colored 
+// Containers.
+SliverList(
+    delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
+      // To convert this infinite list to a list with three items,
+      // uncomment the following line:
+      // if (index > 3) return null;
+      return Container(color: getRandomColor(), height: 150.0);
+    },
+    // Or, uncomment the following line:
+    // childCount: 3,
+  ),
+);
+```
+
+SliverGrid 예제 코드
+```
+SliverGrid(
+  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+    crossAxisCount: 4,
+  ),
+  delegate: SliverChildBuilderDelegate(
+    (BuildContext context, int index) {
+      return new Container(
+        color: randomColor(),
+        height: 150.0);
+    }
+);
+```
+
 <img src = https://miro.medium.com/max/472/1*Oz9-FVqgyjDr_wnrbSQEGQ.gif>
+
+SilverAppBar 예제 
+
+```
+CustomScrollView(
+    slivers: <Widget>[
+      SliverAppBar(
+        title: Text('SliverAppBar'),
+        backgroundColor: Colors.green,
+        expandedHeight: 200.0,
+        flexibleSpace: FlexibleSpaceBar(
+          background: Image.asset('assets/forest.jpg', fit: BoxFit.cover),
+        ),
+      ),
+      SliverFixedExtentList(
+        itemExtent: 150.0,
+        delegate: SliverChildListDelegate(
+          [
+            Container(color: Colors.red),
+            Container(color: Colors.purple),
+            Container(color: Colors.green),
+            Container(color: Colors.orange),
+            Container(color: Colors.yellow),
+            Container(color: Colors.pink),
+          ],
+        ),
+      ),
+    ],
+);
+```
 
 <img src = https://miro.medium.com/max/466/1*s9aYJJApIUVblNZxOWs8DQ.gif>
 
@@ -1488,7 +1561,133 @@ https://medium.com/flutter/slivers-demystified-6ff68ab0296f
 <img src = https://miro.medium.com/max/640/1*g5kTqAzL6FTJKnFictwJ5w.gif>
 
 
-
+```
+import 'package:flutter/material.dart';
+import 'dart:math' as math;
+void main() => runApp(MyApp());
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(title: Text('Collapsing List Demo')),
+        body: CollapsingList(),
+      ),
+    );
+  }
+}
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  _SliverAppBarDelegate({
+    @required this.minHeight,
+    @required this.maxHeight,
+    @required this.child,
+  });
+  final double minHeight;
+  final double maxHeight;
+  final Widget child;
+  @override
+  double get minExtent => minHeight;
+  @override
+  double get maxExtent => math.max(maxHeight, minHeight);
+  @override
+  Widget build(
+      BuildContext context, 
+      double shrinkOffset, 
+      bool overlapsContent) 
+  {
+    return new SizedBox.expand(child: child);
+  }
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return maxHeight != oldDelegate.maxHeight ||
+        minHeight != oldDelegate.minHeight ||
+        child != oldDelegate.child;
+  }
+}
+class CollapsingList extends StatelessWidget {
+  SliverPersistentHeader makeHeader(String headerText) {
+    return SliverPersistentHeader(
+      pinned: true,
+      delegate: _SliverAppBarDelegate(
+        minHeight: 60.0,
+        maxHeight: 200.0,
+        child: Container(
+            color: Colors.lightBlue, child: Center(child:
+                Text(headerText))),
+      ),
+    );
+  }
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        makeHeader('Header Section 1'),
+        SliverGrid.count(
+          crossAxisCount: 3,
+          children: [
+            Container(color: Colors.red, height: 150.0),
+            Container(color: Colors.purple, height: 150.0),
+            Container(color: Colors.green, height: 150.0),
+            Container(color: Colors.orange, height: 150.0),
+            Container(color: Colors.yellow, height: 150.0),
+            Container(color: Colors.pink, height: 150.0),
+            Container(color: Colors.cyan, height: 150.0),
+            Container(color: Colors.indigo, height: 150.0),
+            Container(color: Colors.blue, height: 150.0),
+          ],
+        ),
+        makeHeader('Header Section 2'),
+        SliverFixedExtentList(
+          itemExtent: 150.0,
+          delegate: SliverChildListDelegate(
+            [
+              Container(color: Colors.red),
+              Container(color: Colors.purple),
+              Container(color: Colors.green),
+              Container(color: Colors.orange),
+              Container(color: Colors.yellow),
+            ],
+          ),
+        ),
+        makeHeader('Header Section 3'),
+        SliverGrid(
+          gridDelegate: 
+              new SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200.0,
+            mainAxisSpacing: 10.0,
+            crossAxisSpacing: 10.0,
+            childAspectRatio: 4.0,
+          ),
+          delegate: new SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return new Container(
+                alignment: Alignment.center,
+                color: Colors.teal[100 * (index % 9)],
+                child: new Text('grid item $index'),
+              );
+            },
+            childCount: 20,
+          ),
+        ),
+        makeHeader('Header Section 4'),
+        // Yes, this could also be a SliverFixedExtentList. Writing 
+        // this way just for an example of SliverList construction.
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              Container(color: Colors.pink, height: 150.0),
+              Container(color: Colors.cyan, height: 150.0),
+              Container(color: Colors.indigo, height: 150.0),
+              Container(color: Colors.blue, height: 150.0),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+	
+```
 
 
 
