@@ -609,6 +609,7 @@ class SignUpPage extends StatelessWidget {
 
 새로운 화면으로 이동하고, 되돌아오기
 
+<img src= 'https://flutter.dev/images/cookbook/navigation-basics.gif'>
 
 대부분의 앱은 여러 종류의 정보를 보여주기 위해 여러 화면을 갖고 있dma. 예를 들어, 어떤 앱이 상품 목록을 보여주는 화면을 갖고 있다고 한다면, 사용자가 한 상품을 선택했을 때 새로운 화면에서 해당 상품의 상세 정보를 볼 수 있음.
 용어: Flutter에서 screen 과 page 는 route 로 불림.
