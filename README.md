@@ -1477,7 +1477,7 @@ SliverList , SliverGrid 및 SliverAppBar를 포함하여 Flutter에서 슬라이
 
 https://medium.com/flutter/slivers-demystified-6ff68ab0296f
 
-
+<img src = 'https://miro.medium.com/max/488/1*D0lutEyy9ouTE7TVgG4IXw.gif'>
 
 
 
