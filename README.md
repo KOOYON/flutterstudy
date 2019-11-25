@@ -914,7 +914,7 @@ class SecondScreen extends StatelessWidget {
 
 새로운 화면으로 데이터 보내기
 
-<img src = 'https://flutter.dev/images/cookbook/passing-data.gif'>
+<img src = "https://flutter.dev/images/cookbook/passing-data.gif">
 
 종종 새로운 화면으로 단순히 이동하는 것 뿐만 아니라 데이터를 넘겨주어야 할 때도 있음. 예를 들어, 사용자가 선택한 아이템에 대한 정보를 같이 넘겨주는 경우가 있음.
 예제에서는 Todo 리스트를 만들고 Todo를 선택하면 새로운 화면(위젯)으로 이동하면서 선택한 to do에 대한 정보를 표시함.
