@@ -1475,6 +1475,9 @@ class DetailScreen extends StatelessWidget {
 SliverList , SliverGrid 및 SliverAppBar를 포함하여 Flutter에서 슬라이 버를 구현하는 방법에 대한 자세한 내용은 Medium 's Flutter Publication 에 대한 기사 인 Slivers , DeMystified 를 참조하십시오 .
 
 
+https://medium.com/flutter/slivers-demystified-6ff68ab0296f
+
+
 
 
 
