@@ -401,12 +401,12 @@ Navigator.pop(context);
 네비게이터 경로 사용
 경로 이름은 경로와 유사한 구조를 사용함. (예 : '/ a / b / c'). 앱의 경로 이름은 기본적으로 '/'임.
 
-MaterialApp는 만들 수 있습니다 Map<String, WidgetBuilder>를 생성하는 빌더 기능 경로의 이름에서 지도한다. MaterialApp는 그 네비게이터의 값 만들려면이 맵을 사용 onGenerateRoute 콜백을.
+MaterialApp에서 `<String, WidgetBuilder>`을 route 이름과 관련하여 사용함.
 
 ```
 void main() {
   runApp(MaterialApp(
-    home: MyAppHome(), // becomes the route named '/'
+    home: MyAppHome(), // route 이름은 '/'로 표시함
     routes: <String, WidgetBuilder> {
       '/a': (BuildContext context) => MyPage(title: 'page A'),
       '/b': (BuildContext context) => MyPage(title: 'page B'),
@@ -418,13 +418,13 @@ void main() {
 
 이름으로 경로를 표시하려면
 
+```
 Navigator.pushNamed(context, '/b');
-경로는 값을 반환 할 수 있습니다
-경로를 푸시하여 사용자에게 값을 요청하면 pop 메소드의 결과 매개 변수 를 통해 값을 리턴 할 수 있습니다 .
+```
 
-경로를 푸시하는 메소드는 Future를 리턴합니다 . 경로는 팝될 때 Future는 해결되며 Future 값은 pop 메소드의 result 매개 변수입니다.
+경로는 값을 반환 할 수 있음. 경로를 푸시하여 사용자에게 값을 요청하면 pop 메소드의 결과 매개 변수를 통해 값을 리턴할 수 있음. 경로를 푸시하는 메소드는 Future를 리턴함. Future 값은 pop 메소드의 result 매개 변수임.
 
-예를 들어 사용자에게 '확인'을 눌러 작업을 확인하도록 요청하려면 Navigator.pushawait 의 결과를 얻을 수 있습니다 .
+예를 들어 사용자에게 '확인'을 눌러 작업을 확인하도록 요청하려면 Navigator.pushawait 의 결과를 얻을 수 있음.
 
 ```
 bool value = await Navigator.push(context, MaterialPageRoute<bool>(
@@ -438,21 +438,20 @@ bool value = await Navigator.push(context, MaterialPageRoute<bool>(
   }
 ));
 ```
-사용자가 'OK'를 누르면 값이 true가됩니다. 사용자가 비계의 뒤로 버튼을 눌러 경로를 벗어나면 값이 null이됩니다.
 
-경로를 사용하여 값을 반환하는 경우 경로의 유형 매개 변수는 pop 의 결과 유형과 일치해야합니다 . 그렇기 때문에 또는 MaterialPageRoute<bool>대신에 사용 했습니다 . (유형을 지정하지 않으려면 괜찮습니다.)MaterialPageRoute<void>MaterialPageRoute
+사용자가 'OK'를 누르면 값이 true가 됨. 경로를 사용하여 값을 반환하는 경우 경로의 유형 매개 변수는 pop 의 결과 유형과 일치해야 함. 
 
 팝업 경로
-경로가 전체 화면을 가리지 않아도됩니다. PopupRoute 는 현재 화면이 보이도록 부분적으로 만 불투명 할 수 있는 ModalRoute.barrierColor로 화면을 덮습니다 . 팝업 경로는 아래 위젯에 대한 입력을 차단하기 때문에 "모달"입니다.
+경로가 전체 화면을 가리지 않아도 됨. PopupRoute 는 현재 화면이 보이도록 부분적으로만 불투명한 ModalRoute.barrierColor로 화면을 덮음. 
 
-팝업 경로를 생성하고 표시하는 기능이 있습니다. 예를 들어 showDialog , showMenu 및 showModalBottomSheet 입니다. 이 함수는 위에서 설명한대로 푸시 된 경로의 미래를 반환합니다. 발신자는 경로가 튀어 나올 때 조치를 취하거나 경로 값을 발견하기 위해 리턴 된 값을 기다릴 수 있습니다.
-
-PopupMenuButton 및 DropdownButton 과 같은 팝업 경로를 생성하는 위젯도 있습니다 . 이 위젯은 PopupRoute의 내부 서브 클래스를 작성하고 Navigator의 push 및 pop 메소드를 사용하여이를 표시 및 해제합니다.
+PopupMenuButton 및 DropdownButton은 팝업 경로를 생성하는 위젯임. 이 위젯은 PopupRoute의 내부 서브 클래스를 작성하고 Navigator의 push 및 pop 메소드를 사용하여 이를 표시함.
 
 맞춤 경로
-PopupRoute , ModalRoute 또는 PageRoute 와 같은 위젯 라이브러리 라우트 클래스 중 하나의 자체 서브 클래스를 작성하여 라우트, 라우트의 모달 배리어의 색상 및 동작 및 라우트의 다른 측면을 표시하는 데 사용되는 애니메이션 전환을 제어 할 수 있습니다.
+PopupRoute , ModalRoute 또는 PageRoute와 같이 라우트 클래스 중 하나의 자체 서브 클래스를 작성하여 라우트, 색상 및 동작 및 애니메이션 전환을 제어 할 수 있음.
 
-PageRouteBuilder의 클래스는 가능한 콜백의 관점에서 사용자 지정 경로를 정의 할 수 있습니다. 다음은 경로가 나타나거나 사라질 때 자식을 회전하고 페이드하는 예제입니다. 이 경로는 opaque: false팝업 경로와 마찬가지로을 지정하기 때문에 전체 화면을 가리지 않습니다.
+PageRouteBuilder의 클래스는 사용자 지정 경로를 정의 할 수 있음. 
+
+예제
 
 ```
 Navigator.push(context, PageRouteBuilder(
@@ -472,27 +471,16 @@ Navigator.push(context, PageRouteBuilder(
 ));
 ```
 
-페이지 경로는 "페이지"와 "전환"의 두 부분으로 구성됩니다. 페이지는 transitionsBuilder함수에 전달 된 자식의 자손이 됩니다. 그것은 (과 생략의 애니메이션 매개 변수에 의존하지 않기 때문에 일반적으로 페이지는 한 번 구축 _ 및 __이 예에서). 전환은 지속 시간 동안 모든 프레임에 구축됩니다.
 
 중첩 네비게이터
-앱은 둘 이상의 네비게이터를 사용할 수 있습니다. 하나의 네비게이터를 다른 네비게이터 아래에 중첩하여 탭 내비게이션, 사용자 등록, 매장 체크 아웃 또는 전체 애플리케이션의 하위 섹션을 나타내는 기타 독립적 인 여정과 같은 "내부 여정"을 작성할 수 있습니다.
-
-실제 예
-iOS 앱은 각 탭이 자체 탐색 기록을 유지하는 탭 탐색을 사용하는 것이 일반적입니다. 따라서 각 탭에는 고유 한 네비게이터 가있어 일종의 "병렬 내비게이션"을 만듭니다.
-
-탭의 병렬 탐색 외에도 탭을 완전히 덮는 전체 화면 페이지를 시작할 수 있습니다. 예를 들어, 온 보딩 흐름 또는 경고 대화 상자입니다. 따라서 탭 탐색 위에 있는 "루트" 네비게이터 가 있어야합니다 . 그 결과, 탭의 각 네비게이터 의 실제로 중첩되는 네비게이터 단일 루트 아래의 앉아 Navigator를 .
-
-중첩 된 네비게이터 의 탭 탐색에 앉아에 WidgetApp와 CupertinoTabView 당신이 중첩에 대해 걱정할 필요가 없습니다, 네비게이터 이 상황에서의, 그러나 중첩 된 실제 예제 네비게이터 (S)가 사용된다.
+앱은 둘 이상의 네비게이터를 사용할 수 있습니다. 하나의 네비게이터를 다른 네비게이터 아래에 중첩하여 탭 내비게이션 등을 작성할 수 있음.
 
 
-링크
-견본앱 샘플
-다음 예제는 중첩 된 네비게이터 를 사용하여 독립형 사용자 등록 과정을 제시하는 방법을 보여줍니다 .
-이 예제에서는 두 개의 Navigator 를 사용 하여 중첩 된 Navigator 를 보여 주지만 단일 Navigator 만을 사용하여 유사한 결과를 얻을 수 있습니다 .
 
-flutter run --route=/signup홈 페이지 대신 가입 절차로 시작하려면 이 예제를 실행 하십시오.
 
-할당
+중첩 네비게이터 사용 예제
+
+
 ```
 import 'package:flutter/material.dart';
 
@@ -616,43 +604,33 @@ class SignUpPage extends StatelessWidget {
 
 ```
 
-Navigator.of 는 지정된 BuildContext 에서 가장 가까운 상위 네비게이터 에서 작동합니다 . 중첩된 네비게이터 가 생성 되는 대규모 메소드에서 특히 의도 된 네비게이터 아래 에 BuildContext 를 제공하십시오 . 작성기 액세스 (A)에 사용할 수있는 위젯 BuildContext 위젯 서브 트리의 원하는 위치.build
-
-
-새로운 화면으로 이동하고, 되돌아오기
-Named route로 화면 전환
-새로운 화면으로 데이터 보내기
-이전 화면에 데이터 반환하기
-화면을 넘나드는 위젯 애니메이션
 
 
 
 새로운 화면으로 이동하고, 되돌아오기
-문서
-Cookbook
-Navigation
-새로운 화면으로 이동하고, 되돌아오기
-대부분의 앱은 여러 종류의 정보를 보여주기 위해 여러 화면을 갖고 있습니다. 예를 들어, 어떤 앱이 상품 목록을 보여주는 화면을 갖고 있다고 한다면, 사용자가 한 상품을 선택했을 때 새로운 화면에서 해당 상품의 상세 정보를 볼 수 있습니다.
 
-용어: Flutter에서 screen 과 page 는 route 로 불립니다. 이 문서의 나머지 부분에서는 Route라고 언급합니다.
 
-Route는 Android의 Activity, iOS의 ViewController와 동일합니다. Flutter에서는 Route 역시 위젯입니다.
+대부분의 앱은 여러 종류의 정보를 보여주기 위해 여러 화면을 갖고 있dma. 예를 들어, 어떤 앱이 상품 목록을 보여주는 화면을 갖고 있다고 한다면, 사용자가 한 상품을 선택했을 때 새로운 화면에서 해당 상품의 상세 정보를 볼 수 있음.
+용어: Flutter에서 screen 과 page 는 route 로 불림.
 
-새로운 route로 어떻게 이동할까요? Navigator를 사용하세요. 여기서는 아래와 같은 단계로 진행합니다:
+Route는 Android의 Activity, iOS의 ViewController와 동일함. Flutter에서는 Route 역시 위젯임.
 
-다음 섹션에서 두 개의 route에서 화면 전환하는 방법을 보여주겠습니다. 아래 단계를 따라오세요:
+새로운 route로 Navigator를 사용하여 아래와 같은 단계로 진행하여 이동함.
 
-두 개의 route를 생성합니다.
-Navigator.push()를 사용하여 두 번째 route로 전환합니다.
-Navigator.pop()을 사용하여 첫 번째 route로 되돌아 옵니다.
+
+
 1. 두 개의 route를 생성합니다.
-우선 두 개의 route를 생성합니다. 간단한 예제이기 때문에 각 route에는 버튼 하나 씩만 넣어줄 겁니다. 첫 번째 route의 버튼을 누르면 두 번째 route로 화면 전환되며, 두 번째 route의 버튼을 누르면 첫 번째 route로 되돌아 옵니다.
+2. Navigator.push()를 사용하여 두 번째 route로 전환합니다.
+3. Navigator.pop()을 사용하여 첫 번째 route로 되돌아 옵니다.
 
-우선 시각적 구조를 세팅합니다.
+
+1. 두 개의 route를 생성합니다.
+우선 두 개의 route를 생성함. 
+예제에서는 첫 번째 route의 버튼을 누르면 두 번째 route로 화면 전환되며, 두 번째 route의 버튼을 누르면 첫 번째 route로 되돌아 옴.
+
 
 
 ```
-content_copy
 class FirstRoute extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -693,11 +671,11 @@ class SecondRoute extends StatelessWidget {
 ```
 
 2. Navigator.push()를 사용하여 두 번째 route로 전환합니다.
-새로운 route로 전환하기 위해 Navigator.push() 메서드를 사용하세요. push() 메서드는 Route를 Navigator에 의해 관리되는 route 스택에 추가합니다. Route는 어디서 오는 걸까요? 직접 생성하거나, 새로운 route로 이동 시 플랫폼 특화된 애니메이션을 사용하기 좋은 MaterialPageRoute의 을 사용할 수 있습니다.
+새로운 route로 전환하기 위해 Navigator.push() 메서드를 사용함. push() 메서드는 Route를 Navigator에 의해 관리되는 route 스택에 추가함. Route는 직접 생성하거나, 새로운 route로 이동시 MaterialPageRoute를 사용할 수 있음.
 
-FirstRoute 위젯의 build() 메서드에서 onPressed() 콜백을 수정하세요:
 
-content_copy
+
+```
 // Within the `FirstRoute` widget
 onPressed: () {
   Navigator.push(
@@ -705,16 +683,18 @@ onPressed: () {
     MaterialPageRoute(builder: (context) => SecondRoute()),
   );
 }
-3. Navigator.pop()을 사용하여 첫 번째 route로 되돌아 옵니다.
-두 번째 route를 닫고 이전 route로 어떻게 되돌아 갈까요? Navigator.pop() 메서드를 사용하세요. pop() 메서드는 Navigator에 의해 관리되는 route 스택에서 현재 Route를 제거합니다.
+```
 
-이전 route로 되돌아 가기 위해, SecondRoute 위젯의 onPressed() 콜백을 수정하세요:
+3. Navigator.pop()을 사용하여 첫 번째 route로 되돌아 옴.
+두 번째 route를 닫고 이전 route로  Navigator.pop() 메서드를 사용여 되돌아감. pop() 메서드는 Navigator에 의해 관리되는 route 스택에서 현재 Route를 제거함.
 
-content_copy
+```
 // Within the SecondRoute widget
 onPressed: () {
   Navigator.pop(context);
 }
+```
+
 완성된 예제
 
 ```
@@ -772,25 +752,22 @@ class SecondRoute extends StatelessWidget {
 
 
 Named route로의 화면 전환
-문서
-Cookbook
-Navigation
-Named route로의 화면 전환
-새로운 화면으로 이동하고, 되돌아오기 예제에서는 Route를 생성하고, Navigator 에 전달하여 새로운 화면으로 전환하는 방법을 배웠습니다.
 
-하지만 만약 앱의 다른 많은 부분들에서 동일한 화면으로 이동하고자 한다면, 중복된 코드가 생기게 됩니다. 이러한 경우 named route 를 정의하여 화면 전환에 사용하는 방법이 해결책이 될 수 있습니다.
+만약 앱의 다른 많은 영역에서 동일한 화면으로 이동하고자 한다면, 중복된 코드가 생기게 됩니다. 이러한 경우 named route를 정의하여 화면 전환에 사용하는 방법이 있음.
+Named route를 사용하기 위해 Navigator.pushNamed 함수를 사용할 수 있음. 
 
-Named route를 사용하기 위해 Navigator.pushNamed 함수를 사용할 수 있습니다. 이 예제에서는 named route를 사용하는 방법을 보여주기 위해 기존 예제의 기능을 사용하고, 아래와 같은 순서로 진행합니다:
 
-두 개의 화면 만들기.
-Route 정의하기.
-Navigator.pushNamed를 사용하여 두 번째 화면으로 전환하기.
-Navigator.pop을 사용하여 첫 번째 화면으로 돌아가기.
+1. 두 개의 화면 만들기.
+2. Route 정의하기.
+3. Navigator.pushNamed를 사용하여 두 번째 화면으로 전환하기.
+4. Navigator.pop을 사용하여 첫 번째 화면으로 돌아가기.
+
 1. 두 개의 화면 만들기
-우선, 본 예제를 시작하기 위해 두 개의 화면이 필요합니다. 첫 번째 화면에는 두 번째 화면으로 이동하기 위한 버튼 하나가 있고, 두 번째 화면에는 다시 첫 번째 화면으로 돌아가기 위한 버튼이 있습니다.
+우선 두 개 이상의 화면이 있어야 함. 
+예제에서는 첫 번째 화면에는 두 번째 화면으로 이동하기 위한 버튼 하나가 있고, 두 번째 화면에는 다시 첫 번째 화면으로 돌아가기 위한 버튼이 있음.
 
 ```
-content_copy
+
 class FirstScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -802,7 +779,7 @@ class FirstScreen extends StatelessWidget {
         child: RaisedButton(
           child: Text('Launch screen'),
           onPressed: () {
-            // 클릭하면 두 번째 화면으로 전환합니다!
+            // 클릭하면 두 번째 화면으로 전환.
           },
         ),
       ),
@@ -820,7 +797,7 @@ class SecondScreen extends StatelessWidget {
       body: Center(
         child: RaisedButton(
           onPressed: () {
-            // 클릭하면 첫 번째 화면으로 돌아갑니다!
+            // 클릭하면 첫 번째 화면으로 돌아감.
           },
           child: Text('Go back!'),
         ),
@@ -829,52 +806,50 @@ class SecondScreen extends StatelessWidget {
   }
 }
 ```
-2. Route 정의하기
-다음으로, MaterialApp 생성자에 initialRoute와 routes 이름의 추가 프로퍼티를 제공하여 route를 정의하겠습니다.
 
-initialRoute 프로퍼티는 앱의 시작점을 나타내는 route를 정의하고, routes 프로퍼티는 이용가능한 named route와 해당 route로 이동했을 때 빌드될 위젯을 정의합니다.
+2. Route 정의하기
+ MaterialApp 생성자에 initialRoute와 routes 이름의 추가 프로퍼티를 제공하여 route를 정의함. initialRoute 프로퍼티는 앱의 시작점을 나타내는 route를 정의하고, routes 프로퍼티는 이용가능한 named route와 해당 route로 이동했을 때 빌드될 위젯을 정의함.
 
 ```
-content_copy
+
 MaterialApp(
-  // "/"으로 named route와 함께 시작합니다. 본 예제에서는 FirstScreen 위젯에서 시작합니다.
+  // "/"으로 named route와 함께 시작함. 본 예제에서는 FirstScreen 위젯에서 시작함.
   initialRoute: '/',
   routes: {
-    // "/" Route로 이동하면, FirstScreen 위젯을 생성합니다.
+    // "/" Route로 이동하면, FirstScreen 위젯을 생성함.
     '/': (context) => FirstScreen(),
-    // "/second" route로 이동하면, SecondScreen 위젯을 생성합니다.
+    // "/second" route로 이동하면, SecondScreen 위젯을 생성함.
     '/second': (context) => SecondScreen(),
   },
 );
 ```
- 경고: initialRoute를 사용한다면, home프로퍼티를 정의하지 마세요.
+ 주의: initialRoute를 사용한다면, home 프로퍼티를 정의하지 않음.
 
 3. 두 번째 화면으로 전환하기
-위젯과 route를 정의했다면,
-Navigator.pushNamed() 메서드로 화면 전환을 호출하세요. 이 함수는 Flutter에게 앞서 routes 테이블에 정의한 위젯을 생성하고 그 화면을 시작하도록 요청합니다.
+위젯과 route를 정의했다면, Navigator.pushNamed() 메서드로 화면 전환을 호출함. 이 함수는 Flutter에게 앞서 routes 테이블에 정의한 위젯을 생성하고 그 화면을 시작하도록 요청함.
 
-FirstScreen 위젯의 build() 메서드에 onPressed() 콜백을 다음과 같이 수정하세요:
-
-content_copy
+```
 // `FirstScreen` 위젯의 콜백
 onPressed: () {
-  // Named route를 사용하여 두 번째 화면으로 전환합니다.
+  // Named route를 사용하여 두 번째 화면으로 전환함.
   Navigator.pushNamed(context, '/second');
 }
+```
+
 4. 첫 번째 화면으로 돌아가기
 첫 번째 페이지로 되돌아가기 위해 Navigator.pop() 함수를 사용합니다.
 
-content_copy
+```
 // SecondScreen 위젯의 콜백
 onPressed: () {
-  // 현재 route를 스택에서 제거함으로써 첫 번째 스크린으로 되돌아 갑니다.
+  // 현재 route를 스택에서 제거함으로써 첫 번째 스크린으로 되돌아감.
   Navigator.pop(context);
 }
+```
 
 완성된 예제
 
 ```
-
 import 'package:flutter/material.dart';
 
 void main() {
@@ -904,7 +879,7 @@ class FirstScreen extends StatelessWidget {
         child: RaisedButton(
           child: Text('Launch screen'),
           onPressed: () {
-            // Named route를 사용하여 두 번째 화면으로 전환합니다.
+            // Named route를 사용하여 두 번째 화면으로 전환함.
             Navigator.pushNamed(context, '/second');
           },
         ),
@@ -935,20 +910,18 @@ class SecondScreen extends StatelessWidget {
 ```
 
 새로운 화면으로 데이터 보내기
+
 문서
-Cookbook
-Navigation
-새로운 화면으로 데이터 보내기
-종종 새로운 화면으로 단순히 이동하는 것 뿐만 아니라 데이터를 넘겨주어야 할 때도 있습니다. 예를 들어, 사용자가 선택한 아이템에 대한 정보를 같이 넘겨주고 싶은 경우가 있습니다.
+종종 새로운 화면으로 단순히 이동하는 것 뿐만 아니라 데이터를 넘겨주어야 할 때도 있음. 예를 들어, 사용자가 선택한 아이템에 대한 정보를 같이 넘겨주는 경우가 있음.
+예제에서는 Todo 리스트를 만들고 Todo를 선택하면 새로운 화면(위젯)으로 이동하면서 선택한 to do에 대한 정보를 표시함.
+1. Todo 클래스를 정의함.
+2. Todo 리스트를 표시함.
+3. Todo에 대한 상세 정보를 보여줄 수 있는 화면을 생성.
+4. 상세 화면으로 이동하면서 데이터를 전달.
 
-기억하세요: 화면은 단지 위젯입니다. 이 예제에서 Todo 리스트를 만들 것입니다. Todo를 선택하면 새로운 화면(위젯)으로 이동하면서 선택한 todo에 대한 정보를 보여줄 것입니다. 여기서는 아래와 같은 단계로 진행합니다:
 
-Todo 클래스를 정의합니다.
-Todo 리스트를 보여줍니다.
-Todo에 대한 상세 정보를 보여줄 수 있는 화면을 생성합니다.
-상세 화면으로 이동하면서 데이터를 전달합니다.
-1. Todo 클래스를 정의합니다.
-우선 Todo를 표현하기 위한 간단한 정보가 필요합니다. 이 예제에서는 두 가지의 데이터를 갖고 있는 클래스를 정의할 것입니다: 제목과 상세 설명
+1. Todo 클래스를 정의.
+Todo를 표현하기 위한 간단한 정보를 표시함. 이 예제에서는 두 가지의 데이터를 갖고 있는 클래스를 정의함. 
 
 ```
 class Todo {
@@ -958,10 +931,10 @@ class Todo {
   Todo(this.title, this.description);
 }
 ```
-2. Todo 리스트를 보여줍니다.
-두 번째로, Todo 리스트를 보여줄 것입니다. 이 예제에서는 20개의 todo를 생성하고 ListView를 사용하여 보여줄 것입니다. List에 대한 더 자세한 정보는 Use lists에서 확인할 수 있습니다.
 
-Todo 리스트 생성하기
+2. Todo 리스트를 표시함
+ 예제에서는 20개의 todo를 생성하고 ListView를 사용하여 Todo 리스트 생성함.
+ 
 ```
 final todos = List<Todo>.generate(
   20,
@@ -981,24 +954,24 @@ ListView.builder(
   },
 );
 ```
-여기까지 그런대로 잘 되었습니다. 이제 20개의 Todo를 생성하여 ListView에 보여줄 것입니다!
+20개의 Todo를 생성하여 ListView에 표시함.
 
-3. Todo에 대한 상세 정보를 보여줄 수 있는 화면을 생성합니다.
-이제 두 번째 화면을 만들겠습니다. 화면의 제목은 Todo의 제목을 포함하며 본문에는 상세 설명을 보여줄 것입니다.
+3. Todo에 대한 상세 정보를 보여줄 수 있는 화면을 생성.
+예제에서 두 번째 화면의 제목은 Todo의 제목을 포함하며 본문에는 상세 설명을 표시함.
 
-두 번째 화면은 일반적인 StatelssWidget이므로, 생성자 매개변수로 Todo를 받을 수 있게 간단한 방법으로 강제하겠습니다. 그러면 주어진 Todo를 활용하여 UI를 그릴 수 있습니다.
+
 ```
-content_copy
+
 class DetailScreen extends StatelessWidget {
-  // Todo를 들고 있을 필드를 선언합니다.
+  // Todo를 들고 있을 필드를 선언.
   final Todo todo;
 
-  // 생성자 매개변수로 Todo를 받도록 강제합니다.
+  // 생성자 매개변수로 Todo를 받도록 함.
   DetailScreen({Key key, @required this.todo}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    // UI를 그리기 위해 Todo를 사용합니다.
+    // UI를 그리기 위해 Todo를 사용.
     return Scaffold(
       appBar: AppBar(
         title: Text(todo.title),
@@ -1011,20 +984,20 @@ class DetailScreen extends StatelessWidget {
   }
 }
 ```
-4. 상세 화면으로 이동하면서 데이터를 전달합니다.
-앞서 작성한 DetailsScreen으로 화면 전환할 준비가 되었습니다. 본 예제에서는 사용자가 Todo 리스트 중 하나를 선택했을 때, DetailsScreen으로 화면 전환하도록 할 것입니다. 그와 동시에 DetailsScreen에 Todo를 전달할 것입니다.
+4. 상세 화면으로 이동하면서 데이터를 전달함.
 
-사용자의 탭 동작을 감지하기 위해, ListTile 위젯에 onTap 콜백을 작성할 것입니다. onTap 콜백 내에서 다시 한 번 Navigator.push 메서드를 사용할 것입니다.
+예제에서는 사용자가 Todo 리스트 중 하나를 선택했을 때, DetailsScreen으로 화면 전환하고 동시에 DetailsScreen에 Todo를 전달.
+
+
+사용자의 탭 동작을 감지하기 위해, ListTile 위젯에 onTap 콜백을 작성하고 onTap 콜백 내에서 다시 한 번 Navigator.push 메서드를 사용하.
+
 ```
-content_copy
 ListView.builder(
   itemCount: todos.length,
   itemBuilder: (context, index) {
     return ListTile(
-      title: Text(todos[index].title),
-      // 사용자가 ListTile을 선택하면, DetailScreen으로 이동합니다.
-      // DetailScreen을 생성할 뿐만 아니라, 현재 todo를 같이 전달해야
-      // 한다는 것을 명심하세요.
+      title: Text(todos[index].title)
+      // DetailScreen을 생성하고 현재 todo를 같이 전달.
       onTap: () {
         Navigator.push(
           context,
@@ -1036,8 +1009,11 @@ ListView.builder(
     );
   },
 );
+```
+
 완성된 예제
-content_copy
+
+```
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -1079,9 +1055,8 @@ class TodosScreen extends StatelessWidget {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(todos[index].title),
-            // 사용자가 ListTile을 선택하면, DetailScreen으로 이동합니다.
-            // DetailScreen을 생성할 뿐만 아니라, 현재 todo를 같이 전달해야
-            // 한다는 것을 명심하세요.
+            
+           
             onTap: () {
               Navigator.push(
                 context,
@@ -1098,10 +1073,10 @@ class TodosScreen extends StatelessWidget {
 }
 
 class DetailScreen extends StatelessWidget {
-  // Todo를 들고 있을 필드를 선언합니다.
+  // Todo를 들고 있을 필드를 선언.
   final Todo todo;
 
-  // 생성자는 Todo를 인자로 받습니다.
+  // 생성자는 Todo를 인자로 받음.
   DetailScreen({Key key, @required this.todo}) : super(key: key);
 
   @override
@@ -1122,21 +1097,19 @@ class DetailScreen extends StatelessWidget {
 
 
 이전 화면에 데이터 반환하기
-문서
-Cookbook
-Navigation
-이전 화면에 데이터 반환하기
-새로운 화면으로부터 이전 화면으로 데이터를 반환해야하는 경우가 있습니다. 예를 들어, 사용자에게 두 가지 옵션을 보여주는 화면이 있다고 합시다. 사용자가 한 옵션을 선택했을 때 그것을 첫 번째 화면에 알려주면 그에 맞는 동작을 할 수 있을 것입니다!
 
-어떻게 구현할 수 있을까요? Navigator.pop()을 사용하여 아래 순서로 진행하세요:
 
-홈 화면을 정의합니다.
-선택 창을 띄우는 버튼을 추가합니다.
-두 개의 버튼을 가진 선택 창을 보여줍니다.
-하나의 버튼을 클릭하면 선택 창을 닫습니다.
-선택된 정보를 홈 화면의 snackbar에 보여줍니다.
-1. 홈 화면을 정의합니다.
-홈 화면에서는 버튼 하나를 보여줄 것입니다. 버튼을 클릭하면 선택 창을 띄울 것입니다!
+새로운 화면으로부터 이전 화면으로 데이터를 반환해야하는 경우가 있음. 예를 들어, 사용자에게 두 가지 옵션을 보여주는 화면에서 사용자가 한 옵션을 클릭하면 첫 번째 화면에 알려주고 그에 따른 실행을 하려는 경우 Navigator.pop()을 사용하여 다음과 같이 진행할 수 있음.
+
+
+1. 홈 화면을 정의함.
+2. 선택 창을 띄우는 버튼을 추가.
+3. 두 개의 버튼을 가진 선택 창을 보여줍니다.
+4. 하나의 버튼을 클릭하면 선택 창을 닫습니다.
+5. 선택된 정보를 홈 화면의 snackbar에 보여줍니다.
+
+1. 홈 화면을 정의.
+예제에서는 홈 화면에서는 버튼 하나가 있고 버튼을 클릭하면 연동 창을 띄움.
 
 ```
 class HomeScreen extends StatelessWidget {
@@ -1151,12 +1124,12 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-2. 선택 창을 띄우는 버튼을 추가합니다.
-이제 SelectionButton을 만들 차례입니다. 선택 버튼은:
+```
 
-사용자가 클릭했을 때, SelectionScreen을 띄울 것입니다.
-SelectionScreen이 결과를 반환할 때까지 대기할 것입니다.
-content_copy
+2. 연동 창을 띄우는 버튼을 추가.
+ SelectionButton을 만들고 사용자가 클릭했을 때, SelectionScreen을 띄움. SelectionScreen이 결과를 반환할 때까지 대기.
+ 
+ ```
 class SelectionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -1179,12 +1152,13 @@ class SelectionButton extends StatelessWidget {
     );
   }
 }
-3. 두 개의 버튼을 가진 선택 창을 보여줍니다.
-이제 선택 창을 만들 차례입니다. 선택 창은 두 개의 버튼을 갖고 있으며, 사용자가 하나의 버튼을 클릭하면 선택 창을 닫고 그 결과를 홈 화면에 알려줄 것입니다.
+```
 
-이번 단계에서는 UI를 정의합니다. 다음 단계에서는 데이터를 반환하는 코드를 추가합니다.
+3. 두 개의 버튼을 가진 선택 창을 표시.
 
-content_copy
+두 개의 버튼을 다른 화면에서 사용자가 하나의 버튼을 클릭하면 현재 창을 닫고 그 결과를 홈 화면에 알려줌.  UI를 정의하고 다음 단계에서는 데이터를 반환하는 코드를 추가.
+
+```
 class SelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -1411,6 +1385,7 @@ class DetailScreen extends StatelessWidget {
     );
   }
 }
+```
 2. 첫 번째 화면에 Hero 위젯을 추가합니다.
 두 화면을 하나의 애니메이션으로 연결하기 위해, 각 화면에 존재하는 Image위젯을 Hero위젯으로 감쌉니다. Hero 위젯에 2개의 인자를 넘겨주어야 합니다:
 
@@ -1418,29 +1393,30 @@ class DetailScreen extends StatelessWidget {
 `Hero`위젯을 식별하기 위한 객체로 양쪽 모두 동일한 값을 가져야 합니다.
 `child`
 화면 전환 시 애니메이션 효과를 적용할 위젯입니다.
-content_copy
+```
 Hero(
   tag: 'imageHero',
   child: Image.network(
     'https://picsum.photos/250?image=9',
   ),
 );
+```
 3. 두 번째 화면에 Hero 위젯을 추가합니다.
 첫 번째 화면과의 연결하기 위해, 두 번째 화면의 Image도 첫 번째 화면에 사용한 것과 동일한 tag를 사용한 Hero 위젯으로 감싸주어야 합니다.
 
 두 번째 화면에 Hero 위젯을 적용하기만 하면, 화면 사이의 애니메이션이 동작합니다.
 
-content_copy
+```
 Hero(
   tag: 'imageHero',
   child: Image.network(
     'https://picsum.photos/250?image=9',
   ),
 );
- 참고: 이 코드는 첫 번째 화면에 사용했던 것과 동일한 코드입니다. 코드를 반복하기보다는 재사용 가능한 위젯을 만들어 사용하는 게 모범 사례입니다. 이 예제에서는 단순화하기 위해 동일 코드를 양쪽 위젯에서 사용합니다.
+ 참고: 이 코드는 첫 번째 화면에 사용했던 것과 동일한 코드임. 코드를 반복하기보다는 재사용 가능한 위젯을 만들어 사용하는 것을 권장함. 이 예제에서는 단순화하기 위해 동일 코드를 양쪽 위젯에서 사용함.
 
-완성된 예제
-content_copy
+
+
 import 'package:flutter/material.dart';
 
 void main() => runApp(HeroApp());
