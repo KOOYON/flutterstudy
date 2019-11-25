@@ -754,6 +754,8 @@ class SecondRoute extends StatelessWidget {
 
 Named route로의 화면 전환
 
+<img src= 'https://flutter.dev/images/cookbook/navigation-basics.gif'>
+
 만약 앱의 다른 많은 영역에서 동일한 화면으로 이동하고자 한다면, 중복된 코드가 생기게 됩니다. 이러한 경우 named route를 정의하여 화면 전환에 사용하는 방법이 있음.
 Named route를 사용하기 위해 Navigator.pushNamed 함수를 사용할 수 있음. 
 
@@ -912,7 +914,8 @@ class SecondScreen extends StatelessWidget {
 
 새로운 화면으로 데이터 보내기
 
-문서
+<img src = https://flutter.dev/images/cookbook/passing-data.gif>
+
 종종 새로운 화면으로 단순히 이동하는 것 뿐만 아니라 데이터를 넘겨주어야 할 때도 있음. 예를 들어, 사용자가 선택한 아이템에 대한 정보를 같이 넘겨주는 경우가 있음.
 예제에서는 Todo 리스트를 만들고 Todo를 선택하면 새로운 화면(위젯)으로 이동하면서 선택한 to do에 대한 정보를 표시함.
 1. Todo 클래스를 정의함.
@@ -1099,6 +1102,7 @@ class DetailScreen extends StatelessWidget {
 
 이전 화면에 데이터 반환하기
 
+<img src = 'https://flutter.dev/images/cookbook/returning-data.gif'>
 
 새로운 화면으로부터 이전 화면으로 데이터를 반환해야하는 경우가 있음. 예를 들어, 사용자에게 두 가지 옵션을 보여주는 화면에서 사용자가 한 옵션을 클릭하면 첫 번째 화면에 알려주고 그에 따른 실행을 하려는 경우 Navigator.pop()을 사용하여 다음과 같이 진행할 수 있음.
 
@@ -1331,6 +1335,8 @@ class SelectionScreen extends StatelessWidget {
 
 
 화면을 넘나드는 위젯 애니메이션
+
+<img src = 'https://flutter.dev/images/cookbook/hero.gif'>
 
 한 화면에서 다음 화면으로 전환할 때 애니메이션 효과를 주기 위해 Hero 위젯을 사용함.
 
